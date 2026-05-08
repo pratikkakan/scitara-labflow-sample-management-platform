@@ -5,10 +5,15 @@ export default function NotFoundPage() {
     <section className="panel not-found">
       <p className="eyebrow">Missing Route</p>
       <h2>Page not found</h2>
-      <p>The requested page does not exist in this workspace.</p>
-      <Link className="nav-link active" to="/samples">
-        Return to samples
-      </Link>
+      <p>The requested page does not exist in the sample management workspace.</p>
+      <div className="not-found-actions">
+        <Link className="button secondary" to="/samples">
+          Return to dashboard
+        </Link>
+        <Link className="button primary" to="/samples/new">
+          Create Sample
+        </Link>
+      </div>
     </section>
   );
 }

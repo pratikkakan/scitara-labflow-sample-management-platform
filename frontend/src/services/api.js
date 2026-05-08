@@ -11,7 +11,26 @@ export async function apiClient(path, options = {}) {
   });
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
+    let errorMessage = `Request failed with status ${response.status}`;
+
+    try {
+      const errorPayload = await response.json();
+      errorMessage = errorPayload.error?.message ?? errorMessage;
+    } catch {
+      // The backend may return an empty response body for some failures.
+    }
+
+    throw new Error(errorMessage);
+  }
+
+  if (response.status === 204) {
+    return null;
+  }
+
+  const contentType = response.headers.get('content-type');
+
+  if (!contentType?.includes('application/json')) {
+    return null;
   }
 
   return response.json();
