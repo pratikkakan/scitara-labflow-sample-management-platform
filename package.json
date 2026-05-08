@@ -1,0 +1,23 @@
+{
+  "name": "scitara-labflow-sample-management-platform",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "backend",
+    "frontend",
+    "tests"
+  ],
+  "scripts": {
+    "backend:start": "npm run dev --workspace backend",
+    "backend:prod": "npm run start --workspace backend",
+    "frontend:start": "npm run dev --workspace frontend",
+    "frontend:build": "npm run build --workspace frontend",
+    "playwright:install": "npm run install:browsers --workspace tests",
+    "test:playwright": "npm run test --workspace tests",
+    "test:api": "npm run test:api --workspace tests",
+    "test:ui": "npm run test:ui --workspace tests"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
