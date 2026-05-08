@@ -6,10 +6,11 @@ import morgan from 'morgan';
 import { env } from './config/env.js';
 import { errorHandler } from './middleware/error-handler.js';
 import { notFound } from './middleware/not-found.js';
-import apiRoutes from './routes/index.js';
+import { registerRoutes } from './routes/index.js';
 
 const app = express();
 
+app.disable('x-powered-by');
 app.use(
   cors({
     origin: env.clientUrl,
@@ -17,16 +18,16 @@ app.use(
 );
 app.use(helmet());
 app.use(morgan('dev'));
-app.use(express.json());
+app.use(express.json({ limit: '1mb' }));
 
 app.get('/', (_request, response) => {
   response.status(200).json({
     message: 'Sample Management API is running.',
-    version: 'v1',
+    health: '/health',
   });
 });
 
-app.use('/api/v1', apiRoutes);
+registerRoutes(app);
 app.use(notFound);
 app.use(errorHandler);
 

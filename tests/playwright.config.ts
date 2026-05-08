@@ -6,7 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
 const configDirectory = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(configDirectory, '..');
 const frontendPort = 5173;
-const backendPort = 4000;
+const backendPort = 3001;
 
 export default defineConfig({
   fullyParallel: true,
@@ -27,19 +27,20 @@ export default defineConfig({
       env: {
         ...process.env,
         CLIENT_URL: `http://127.0.0.1:${frontendPort}`,
+        HOST: '127.0.0.1',
         PORT: String(backendPort),
       },
       reuseExistingServer: !process.env.CI,
       stderr: 'pipe',
       stdout: 'ignore',
-      url: `http://127.0.0.1:${backendPort}/api/v1/health`,
+      url: `http://127.0.0.1:${backendPort}/health`,
     },
     {
       command: 'npm run dev --workspace frontend -- --host 127.0.0.1 --port 5173',
       cwd: repoRoot,
       env: {
         ...process.env,
-        VITE_API_BASE_URL: `http://127.0.0.1:${backendPort}/api/v1`,
+        VITE_API_BASE_URL: `http://127.0.0.1:${backendPort}`,
       },
       reuseExistingServer: !process.env.CI,
       stderr: 'pipe',
@@ -52,7 +53,7 @@ export default defineConfig({
       name: 'api',
       testDir: './api',
       use: {
-        baseURL: `http://127.0.0.1:${backendPort}/api/v1/`,
+        baseURL: `http://127.0.0.1:${backendPort}/`,
       },
     },
     {

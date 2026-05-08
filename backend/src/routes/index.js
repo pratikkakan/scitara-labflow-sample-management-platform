@@ -1,11 +1,13 @@
-import { Router } from 'express';
-
 import healthRoutes from './health.routes.js';
 import sampleRoutes from './sample.routes.js';
 
-const router = Router();
+const routeModules = [
+  { path: '/health', router: healthRoutes },
+  { path: '/samples', router: sampleRoutes },
+];
 
-router.use('/health', healthRoutes);
-router.use('/samples', sampleRoutes);
-
-export default router;
+export function registerRoutes(app) {
+  routeModules.forEach(({ path, router }) => {
+    app.use(path, router);
+  });
+}

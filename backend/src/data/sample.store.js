@@ -1,45 +1,59 @@
-const sampleInventory = [
+const seededSamples = [
   {
     id: 'SMP-1001',
-    name: 'Serum Stability Panel',
-    type: 'Serum',
-    owner: 'Dr. Maya Chen',
-    status: 'Received',
-    priority: 'High',
-    location: 'Freezer A1',
-    collectedAt: '2026-05-02',
+    sampleName: 'Water Quality Control',
+    scientist: 'Dr. Maya Chen',
+    status: 'Pending',
   },
   {
     id: 'SMP-1002',
-    name: 'Plasma Biomarker Assay',
-    type: 'Plasma',
-    owner: 'Dr. Aaron Patel',
-    status: 'In Analysis',
-    priority: 'Medium',
-    location: 'Bench B4',
-    collectedAt: '2026-05-04',
+    sampleName: 'Cell Viability Panel',
+    scientist: 'Dr. Aaron Patel',
+    status: 'Processing',
   },
   {
     id: 'SMP-1003',
-    name: 'Tissue Histology Prep',
-    type: 'Tissue',
-    owner: 'Dr. Sofia Romero',
-    status: 'Archived',
-    priority: 'Low',
-    location: 'Archive C2',
-    collectedAt: '2026-04-29',
+    sampleName: 'Protein Stability Assay',
+    scientist: 'Dr. Sofia Romero',
+    status: 'Completed',
   },
 ];
 
+const sampleInventory = new Map(
+  seededSamples.map((sample) => [sample.id, { ...sample }]),
+);
+
 export const sampleStore = {
   create(sample) {
-    sampleInventory.unshift(sample);
-    return sample;
+    sampleInventory.set(sample.id, { ...sample });
+    return { ...sample };
+  },
+  delete(sampleId) {
+    const sample = sampleInventory.get(sampleId);
+
+    if (!sample) {
+      return null;
+    }
+
+    sampleInventory.delete(sampleId);
+    return { ...sample };
   },
   findAll() {
-    return [...sampleInventory];
+    return [...sampleInventory.values()].map((sample) => ({ ...sample }));
   },
   findById(sampleId) {
-    return sampleInventory.find((sample) => sample.id === sampleId) ?? null;
+    const sample = sampleInventory.get(sampleId);
+    return sample ? { ...sample } : null;
+  },
+  has(sampleId) {
+    return sampleInventory.has(sampleId);
+  },
+  update(sampleId, updatedSample) {
+    if (!sampleInventory.has(sampleId)) {
+      return null;
+    }
+
+    sampleInventory.set(sampleId, { ...updatedSample, id: sampleId });
+    return { ...sampleInventory.get(sampleId) };
   },
 };

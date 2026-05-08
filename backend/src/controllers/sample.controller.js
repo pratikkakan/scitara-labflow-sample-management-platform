@@ -6,17 +6,9 @@ export function listSamples(_request, response) {
   });
 }
 
-export function getSampleById(request, response, next) {
-  const sample = sampleService.getSampleById(request.params.sampleId);
-
-  if (!sample) {
-    const error = new Error(`Sample ${request.params.sampleId} was not found.`);
-    error.statusCode = 404;
-    return next(error);
-  }
-
-  return response.status(200).json({
-    data: sample,
+export function getSampleById(request, response) {
+  response.status(200).json({
+    data: sampleService.getSampleById(request.params.id),
   });
 }
 
@@ -26,4 +18,17 @@ export function createSample(request, response) {
   response.status(201).json({
     data: sample,
   });
+}
+
+export function updateSample(request, response) {
+  const sample = sampleService.updateSample(request.params.id, request.body);
+
+  response.status(200).json({
+    data: sample,
+  });
+}
+
+export function deleteSample(request, response) {
+  sampleService.deleteSample(request.params.id);
+  response.status(204).send();
 }

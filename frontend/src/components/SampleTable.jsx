@@ -7,28 +7,20 @@ export default function SampleTable({ samples }) {
         <thead>
           <tr>
             <th>Sample ID</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Owner</th>
+            <th>Sample Name</th>
+            <th>Scientist</th>
             <th>Status</th>
-            <th>Priority</th>
-            <th>Location</th>
-            <th>Collected</th>
           </tr>
         </thead>
         <tbody>
           {samples.map((sample) => (
             <tr data-testid="sample-row" key={sample.id}>
               <td>{sample.id}</td>
-              <td>{sample.name}</td>
-              <td>{sample.type}</td>
-              <td>{sample.owner}</td>
+              <td>{sample.sampleName}</td>
+              <td>{sample.scientist}</td>
               <td>
                 <StatusBadge status={sample.status} />
               </td>
-              <td>{sample.priority}</td>
-              <td>{sample.location}</td>
-              <td>{sample.collectedAt}</td>
             </tr>
           ))}
         </tbody>

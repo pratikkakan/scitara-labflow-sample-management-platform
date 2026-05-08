@@ -174,17 +174,17 @@ th {
   font-weight: 600;
 }
 
-.status-badge.received {
+.status-badge.pending {
   color: #0c5d39;
   background: rgba(67, 180, 126, 0.16);
 }
 
-.status-badge.in-analysis {
+.status-badge.processing {
   color: #915d04;
   background: rgba(249, 193, 77, 0.2);
 }
 
-.status-badge.archived {
+.status-badge.completed {
   color: #3e5570;
   background: rgba(129, 149, 173, 0.18);
 }

@@ -1,19 +1,18 @@
-const validStatuses = new Set(['Received', 'In Analysis', 'Archived']);
+import { sampleStatuses } from '../constants/sample-status.js';
+import { validateRequest } from './validate-request.js';
+import {
+  enumString,
+  optionalNonEmptyString,
+  requiredString,
+} from '../validators/field-rules.js';
 
-export function validateSamplePayload(request, _response, next) {
-  const { name, owner, status, type } = request.body;
-
-  if (!name || !type || !owner || !status) {
-    const error = new Error('name, type, owner, and status are required.');
-    error.statusCode = 400;
-    return next(error);
-  }
-
-  if (!validStatuses.has(status)) {
-    const error = new Error(`status must be one of: ${[...validStatuses].join(', ')}.`);
-    error.statusCode = 400;
-    return next(error);
-  }
-
-  return next();
-}
+export const validateSamplePayload = validateRequest({
+  errorMessage: 'Validation failed for sample request.',
+  validators: [
+    optionalNonEmptyString('id'),
+    requiredString('sampleName'),
+    requiredString('scientist'),
+    requiredString('status'),
+    enumString('status', sampleStatuses),
+  ],
+});

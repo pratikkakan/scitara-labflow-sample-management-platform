@@ -10,16 +10,16 @@ function buildSummary(samples) {
   return [
     { label: 'Total Samples', value: samples.length },
     {
-      label: 'Received',
-      value: samples.filter((sample) => sample.status === 'Received').length,
+      label: 'Pending',
+      value: samples.filter((sample) => sample.status === 'Pending').length,
     },
     {
-      label: 'In Analysis',
-      value: samples.filter((sample) => sample.status === 'In Analysis').length,
+      label: 'Processing',
+      value: samples.filter((sample) => sample.status === 'Processing').length,
     },
     {
-      label: 'Archived',
-      value: samples.filter((sample) => sample.status === 'Archived').length,
+      label: 'Completed',
+      value: samples.filter((sample) => sample.status === 'Completed').length,
     },
   ];
 }
@@ -60,7 +60,7 @@ export default function SampleDashboardPage() {
     <div className="stack">
       <PageHeader
         title="Sample Management Overview"
-        description="Track specimen intake, processing, and archival status across the scientific workflow."
+        description="Track sample registration, active lab work, and completion state across the scientific workflow."
       />
 
       <section className="summary-grid" aria-label="Sample summary">
